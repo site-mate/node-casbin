@@ -36,9 +36,9 @@ export class Enforcer extends ManagementEnforcer {
    * @param modelPath model file path
    * @param adapter current adapter instance
    */
-  public async initWithAdapter(modelPath: string, adapter: Adapter): Promise<void> {
+  public async initWithAdapter(modelPath: string, adapter: Adapter, filter: any = null): Promise<void> {
     const m = newModel(modelPath, '');
-    await this.initWithModelAndAdapter(m, adapter);
+    await this.initWithModelAndAdapter(m, adapter, filter);
 
     this.modelPath = modelPath;
   }
@@ -48,7 +48,7 @@ export class Enforcer extends ManagementEnforcer {
    * @param m model instance
    * @param adapter current adapter instance
    */
-  public async initWithModelAndAdapter(m: Model, adapter: Adapter): Promise<void> {
+  public async initWithModelAndAdapter(m: Model, adapter: Adapter, filter: any = null): Promise<void> {
     if (adapter) {
       this.adapter = adapter;
     }
@@ -59,7 +59,12 @@ export class Enforcer extends ManagementEnforcer {
 
     this.initialize();
 
-    if (this.adapter) {
+    if (this.adapter && filter) {
+      // error intentionally ignored
+      await this.loadFilteredPolicy(filter);
+    }
+
+    if (this.adapter && !filter) {
       // error intentionally ignored
       await this.loadPolicy();
     }

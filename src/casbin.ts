@@ -64,7 +64,21 @@ async function newEnforcer(...params: any[]): Promise<Enforcer> {
     }
   }
 
-  if (params.length - parsedParamLen === 2) {
+  if (params.length - parsedParamLen === 3) {
+    if (typeof params[0] === 'string') {
+      if (typeof params[1] === 'string') {
+        await e.initWithFile(params[0].toString(), params[1].toString());
+      } else {
+        await e.initWithAdapter(params[0].toString(), params[1], params[2]);
+      }
+    } else {
+      if (typeof params[1] === 'string') {
+        throw new Error('Invalid parameters for enforcer.');
+      } else {
+        await e.initWithModelAndAdapter(params[0], params[1]);
+      }
+    }
+  } else if (params.length - parsedParamLen === 2) {
     if (typeof params[0] === 'string') {
       if (typeof params[1] === 'string') {
         await e.initWithFile(params[0].toString(), params[1].toString());

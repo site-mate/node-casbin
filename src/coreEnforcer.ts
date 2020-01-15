@@ -155,11 +155,7 @@ export class CoreEnforcer {
   public async loadFilteredPolicy(filter: Filter): Promise<boolean> {
     this.model.clearPolicy();
 
-    if ((this.adapter as FilteredAdapter).isFiltered) {
-      await (this.adapter as FilteredAdapter).loadFilteredPolicy(this.model, filter);
-    } else {
-      throw new Error('filtered policies are not supported by this adapter');
-    }
+    await (this.adapter as FilteredAdapter).loadFilteredPolicy(this.model, filter);
 
     this.model.printPolicy();
     if (this.autoBuildRoleLinks) {
