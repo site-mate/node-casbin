@@ -1,3 +1,7 @@
+## Reason for fork
+On every check we are getting a filtered policy specific to that user. This clears the existing local policy. This means there is no reason to fetch the full policy on startup. 
+This fork implements the option to create a new enforcer and passing in a filter, so a filtered policy will be fetched instead, greatly reducing initialization time.
+
 node-Casbin
 ====
 [![NPM version][npm-image]][npm-url]
